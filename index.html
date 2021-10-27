@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Get unique code</title>
+  </head>
+  <body>
+    <h1>Get unique values array</h1>
+    <div>
+      <input id="input" />
+      <button type="submit" onclick="submit()">Submit</button>
+    </div>
+    <ul id="result">
+    </ul>
+    <script>
+      let initArr = localStorage.getItem('myCodeArr');
+      // let initArr = [];
+
+      const input = document.getElementById('input');
+      const res = document.getElementById('result');
+
+      function submit() {
+        const inputValue = input.value;
+        
+        const valueAsArr = inputValue.split(" ");
+        const resArr = initArr;
+        
+        // redesign Arr
+        for (let i = 0; i < valueAsArr.length; i ++) {
+          if(!resArr.includes(valueAsArr[i])) {
+            resArr.push(valueAsArr[i])
+          }
+        }
+        
+        // Print
+        for (let i = 0; i < resArr.length; i ++) {
+          console.log(i, resArr[i]);
+          const li = document.createElement("li");
+          const content = document.createTextNode(resArr[i]);
+          li.appendChild(content);
+          res.appendChild(li);
+        }
+        
+        // save array to LS
+        localStorage.setItem('myCodeArr', resArr)
+        // reset input
+        input.value = ""
+      }
+    </script>
+
+  </body>
+</html>
