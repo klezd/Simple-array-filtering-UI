@@ -2,8 +2,38 @@
 <html>
   <head>
     <title>Get unique code</title>
+    <style>
+      li {
+        list-style: none;
+      }
+
+      .red {
+        color: red;
+      }
+
+      .green {
+        color: green;
+      }
+      .orange {
+        color: orange;
+      }
+      .pink {
+        color: pink;
+      }
+      .black {
+        color: black;
+      }
+      .blue {
+        color: blue;
+      }
+      .brown {
+        color: brown;
+      }
+    </style>
   </head>
-  <body>
+
+  <body onload="print(null)">
+
     <h1>Get unique values array</h1>
     <div>
       <input id="input" />
@@ -11,19 +41,29 @@
     </div>
     <ul id="result">
     </ul>
+
     <script>
-      let initArr = localStorage.getItem('myCodeArr');
+      const initVal = localStorage.getItem('myCodeArr');
+      let initArr = [];
+
+      if(!initVal) {
+        initArr = []
+      } else {
+        initArr = initVal.split(',')
+      }
+      
       // let initArr = [];
 
       const input = document.getElementById('input');
       const res = document.getElementById('result');
+      const colors = ['red', 'green', 'yellow', 'blue', 'black', 'pink', 'purple']
 
       function submit() {
         const inputValue = input.value;
         
         const valueAsArr = inputValue.split(" ");
         const resArr = initArr;
-        
+
         // redesign Arr
         for (let i = 0; i < valueAsArr.length; i ++) {
           if(!resArr.includes(valueAsArr[i])) {
@@ -32,19 +72,33 @@
         }
         
         // Print
-        for (let i = 0; i < resArr.length; i ++) {
-          console.log(i, resArr[i]);
-          const li = document.createElement("li");
-          const content = document.createTextNode(resArr[i]);
-          li.appendChild(content);
-          res.appendChild(li);
-        }
+        print(resArr);
         
         // save array to LS
         localStorage.setItem('myCodeArr', resArr)
         // reset input
         input.value = ""
       }
+
+      function print(arr) {
+        const randomcolor = colors[Math.floor(Math.random() * colors.length)]
+        console.log(res.childElementCount)
+        const arrToPrint = arr ? arr : initArr;
+        const startIndex = res.childElementCount === 0 ? 0: res.childElementCount;
+        for (let i = startIndex; i < arrToPrint.length; i ++) {
+          if(arrToPrint[i] && arrToPrint[i].length > 5) {  
+            console.log('af ', arrToPrint.length, arrToPrint[i] )
+            const li = document.createElement("li");
+            li.id= i;
+            li.className = randomcolor;
+            const index = i +1 ;
+            const content = document.createTextNode(index + '. ' + arrToPrint[i]);
+            li.appendChild(content);
+            res.appendChild(li);
+          }
+        }
+      }
+
     </script>
 
   </body>
